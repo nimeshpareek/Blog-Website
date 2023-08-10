@@ -1,25 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-posts = [
-    {
-        'author': 'Nimesh',
-        'title': 'Atomic Python',
-        'content': 'self-help',
-        'date_posted': '09-08-2023'
-    },
-    {
-        'author': 'Sudhir',
-        'title': 'Time Waste',
-        'content': 'Waste',
-        'date_posted': '08-08-2023'
-    },
-]
+from .models import Post #models is in same directory that is why we are using .models
 
 def home(request):
-    # we can pass the above data to the dictionary and above dictionary name is context
     context = {
-        'posts': posts
+        'posts': Post.objects.all(),
     }
     return render(request, 'blog/home.html', context)
 
