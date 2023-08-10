@@ -12,8 +12,8 @@ posts = [
         'author': 'Sudhir',
         'title': 'Time Waste',
         'content': 'Waste',
-        'date posted': '08-08-2023'
-    }
+        'date_posted': '08-08-2023'
+    },
 ]
 
 def home(request):

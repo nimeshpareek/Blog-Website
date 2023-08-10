@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- we have not passed anything so this will go into else and show Django Blog -->
-    {% if title %}
-        <title> Django Blog - {{ title }} </title>
-    {% else %}
-        <title> Django Blog </title>
-    {% endif %}
-</head>
-<body>
-    {% for post in posts %} 
-        <h1>{{ post.title }}</h1>  
-        <p>Posted By {{ post.author }} on {{post.date_posted}}</p>
-        <p>{{post.content}}</p>
-        <!-- to access the variable like title we use the double curly braces -->
+{% extends "blog/base.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
     {% endfor %}
-</body>
-</html>
+{% endblock content %}
