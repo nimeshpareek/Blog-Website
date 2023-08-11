@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Post #models is in same directory that is why we are using .models
 
 def home(request):

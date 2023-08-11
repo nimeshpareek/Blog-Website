@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<!-- this temple tag in main.css ensures that the correct path is used and it also ensures that it work consistently across different environment and domains -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
-<!-- If we pass something in title then it will go in if case otherwise it will go in else   -->
+
     {% if title %}
         <title>Django Blog - {{ title }}</title>
     {% else %}
@@ -30,7 +30,6 @@
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
               <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
-              <!-- if we do not use the %url then it is hard to detect the error in case if we change the route and forget to change it here -->
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -44,8 +43,14 @@
     <main role="main" class="container">
       <div class="row">
         <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
           {% block content %}{% endblock %}
-           <!-- we are using the  --block content--endblock--  so that other pages can override this and their content will be over here -->
         </div>
         <div class="col-md-4">
           <div class="content-section">
