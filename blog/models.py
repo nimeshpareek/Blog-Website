@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User 
+from django.urls import reverse
 # we want to make sure that there should be single user for many posts this is one to many relationship to do this
 # in django we use foreign key
 
@@ -13,3 +14,9 @@ class Post(models.Model):
 
     def __str__(self): # watch oops series for this dunder str method
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk}) # returning the full path as a string
+
+
+
