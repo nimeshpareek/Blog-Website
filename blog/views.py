@@ -22,6 +22,8 @@ from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
+    UpdateView,
+    DeleteView,
 )
 from .models import Post #models is in same directory that is why we are using .models
 
@@ -40,7 +42,7 @@ class PostListView(ListView):
 class PostDetailView(DetailView): # This is for the details of the already created post
     model = Post
 
-class PostCreateView(LoginRequiredMixin ,CreateView): # This is for creating  a new post
+class PostCreateView(LoginRequiredMixin, CreateView): # This is for creating  a new post
     # using loginrequired mixin so that it checks everytime that a user is logged in, it will automatically redirect to login page if the user is not logged in
     model = Post
     fields = ['title', 'content']
@@ -58,6 +60,31 @@ class PostCreateView(LoginRequiredMixin ,CreateView): # This is for creating  a 
     # Now you will be getting this error message for this we have to redirect the route and we can use the reverse function
     # the reason we will be using reverse function not redirect bczz it reverse a string to that route instead of redirecting it.
     
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = '/' # To go back to home page when the post is deleted
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
     
 
 def about(request):
