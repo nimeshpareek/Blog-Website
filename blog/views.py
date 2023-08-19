@@ -25,6 +25,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.shortcuts import redirect
+from django.urls import reverse
+
 from .models import Post #models is in same directory that is why we are using .models
 
 def home(request):
@@ -53,7 +56,9 @@ class PostCreateView(LoginRequiredMixin, CreateView): # This is for creating  a 
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form) 
+        home_url = reverse('blog-home') # Get the URL for the home page using the reverse function
+        return redirect('blog-home')
 
     # ImproperlyConfigured at /post/new/
     # No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model.
@@ -67,7 +72,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        home_url = reverse('blog-home')                                 
+        return redirect('blog-home') # Redirect to the home page
 
     def test_func(self):
         post = self.get_object()
@@ -87,8 +94,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     
 
-def about(request):
-    return render(request, 'blog/about.html', {'title': 'About'}) # here the third argument is that we are passing 
+# def about(request):
+    # return render(request, 'blog/about.html', {'title': 'About'}) # here the third argument is that we are passing 
     # something in title like in this case it would be Django Blog - About and if we do not pass anyting then it
     # will take the else condition which is Django Blog
 
