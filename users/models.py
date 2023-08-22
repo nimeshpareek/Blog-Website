@@ -6,7 +6,7 @@ from PIL import Image
 # CASCADE is used when someone delete his profile then evrything related to his profile is deleted
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='default1.jpg', upload_to='profile_pics')
 
     def __str__(self):
         return f'{self.user.username} Profile'
